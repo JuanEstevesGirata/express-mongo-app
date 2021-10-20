@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
-const connectionString = 'mongodb+srv://dbJuan:abcd1234@cluster0.so6wa.mongodb.net/test'
+
+const connectionString = process.env.MONGO_DB_URI
+
+if (!connectionString) {
+  console.error('Recuerda que tienes que tener un archivo .env con las variables de entorno definidas y el MONGO_DB_URI que servirá de connection string. En las clases usamos MongoDB Atlas pero puedes usar cualquier base de datos de MongoDB (local incluso).')
+}
 
 // conexion a mongodb
 mongoose.connect(connectionString, {
@@ -12,3 +17,7 @@ mongoose.connect(connectionString, {
   }).catch(err => {
     console.log(err)
   })
+
+process.on('uncaughtException', () => {
+  mongoose.connection.disconnect()
+})

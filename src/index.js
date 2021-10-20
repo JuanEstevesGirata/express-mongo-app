@@ -1,7 +1,13 @@
+require('dotenv').config()
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import allRoutes from './routes';
+
+
+//CONECTION DB
+require('./mongo');
+
 
 
 //INCIALIZAR EXPRESS
@@ -39,6 +45,9 @@ app.listen(app.get('port'), (error)=> {
         console.log('Servidor iniciado en el puerto:'+ port)
     }
 })
+
+
+//RUTAS
 
 
 
