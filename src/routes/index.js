@@ -1,18 +1,20 @@
-import {Router} from 'express';
-import { getHome } from '../controllers';
-import handleErrors from '../middleware/handleErrors';
-import notFound from '../middleware/notFound';
+// import {Router} from 'express';
+// import { getHome } from '../controllers';
+// import handleErrors from '../middleware/handleErrors';
+// import notFound from '../middleware/notFound';
+
+const {Router} = require('express')
+const {home} = require('../controllers/notes')
+const usersRouter = require('../controllers/users')
+const handleErrors = require('../middleware/handleErrors')
+const notFound = require('../middleware/notFound')
+
 
 const router = Router();
-import Note from '../models/Note';
-
-// router.get('/home', getHome)
-
+const Note = require ('../models/Note');
 
   
-  router.get('/', (request, response) => {
-    response.send('<h1>Hello World!</h1>')
-  })
+  router.get('/', home)
   
 
   router.get('/api/notes', (request, response) => {
@@ -24,7 +26,7 @@ import Note from '../models/Note';
   })
 
     
-  router.get('/api/notes/:id', (request, response, next) => {
+  router.get ('/api/notes/:id', (request, response, next) => {
     const { id } = request.params
   
     Note.findById(id)
@@ -83,13 +85,14 @@ import Note from '../models/Note';
   })
 
   
-  router.use(notFound)
 
-    // app.use(Sentry.Handlers.errorHandler())
+  router.use('/api/users', usersRouter)
+
+  router.use(notFound)
   router.use(handleErrors)
 
 
 
 
 
-export default router;  
+module.exports =  router;  
