@@ -10,7 +10,7 @@ if (!connectionString) {
   console.error('Recuerda que tienes que tener un archivo .env con las variables de entorno definidas y el MONGO_DB_URI que servirá de connection string. En las clases usamos MongoDB Atlas pero puedes usar cualquier base de datos de MongoDB (local incluso).')
 }
 
-// conexion a mongodb
+// Conection a mongoDB
 mongoose.connect(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -21,6 +21,7 @@ mongoose.connect(connectionString, {
     console.log(err)
   })
 
-process.on('uncaughtException', () => {
-  mongoose.connection.disconnect()
+process.on('uncaughtException', error => {
+  console.error(error)
+  mongoose.disconnect()
 })
